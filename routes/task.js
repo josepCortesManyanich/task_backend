@@ -53,6 +53,7 @@ router.put('/',async(req,res,next) => {
     }
 })
 
+/*Eliminar tareas*/
 router.delete('/', async(req,res,next) => {
     const {id} = req.params
     try {
