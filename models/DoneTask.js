@@ -17,4 +17,4 @@ const doneSchema = new Schema({
     timestamps: true
   });
 
-module.exports = model("Task", doneSchema);
+module.exports = model("DoneTask", doneSchema);
