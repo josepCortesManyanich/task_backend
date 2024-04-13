@@ -21,7 +21,7 @@ const taskSchema = new Schema({
   },
   propiedad: {
     type: String,
-    enum: ['Raquel', 'Josep','Dasha','Miguel'],
+    enum: ['Raquel', 'Josep'],
   }
 },
   {
