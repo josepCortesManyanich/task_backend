@@ -15,7 +15,7 @@ router.get('/', async(req,res,next) =>{
     }
 })
 
-
+/*Create task*/
 
 router.post('/', async(req,res,next) => {
      const {name,prioridad,fecha,description,propiedad} = req.body
@@ -31,12 +31,45 @@ router.post('/', async(req,res,next) => {
         next(e)
     }
 })
-router.get((req,res,next) =>{
+
+/*Update file*/
+
+
+router.put('/',async(req,res,next) => {
+    const{id} = req.params
+    const {name,prioridad,fecha,description,propiedad} = req.body
     try {
-        console.log('todo bien')
+        const task = await Task.findById(id);
+        if(!task){
+            console.log('No hay tareas')
+        } else {
+          const updatedTask = await Task.findByIdAndUpdate(id, {name,prioridad,fecha,description,propiedad} , { new: true });
+          res.status(202).json({ data: updatedTask })
+        }
     } catch (error) {
         console.error(error)
+        next(error)
+        
     }
 })
+
+router.delete('/', async(req,res,next) => {
+    const {id} = req.params
+    try {
+        const task = await Task.findById(id);
+        if (!task) {
+            console.log('No hay tareas')
+        } else {
+          const deletedTask = await Task.findByIdAndDelete(id);
+          res.status(202).json({ data: deletedTask})
+        }
+    } catch (error) {
+        console.error(error)
+        next(error)
+        
+    }
+})
+
+
 
 module.exports= router
