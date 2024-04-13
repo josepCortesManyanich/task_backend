@@ -4,7 +4,7 @@ const DoneTask = require('../models/DoneTask')
 /*Get task*/
 router.get('/', async(req,res,next) =>{
     try {
-        const taskDb= await Task.find({})
+        const taskDb= await DoneTask.find({})
         if(taskDb.length === 0){
          console.log('No hay tareas disponibles')
         }else res.status(200).json({ data: taskDb })
@@ -21,9 +21,10 @@ router.post('/:id',  async(req,res,next) => {
     try {
         const task = await Task.findById(id);
         const prevTasks = await TaskDone.find({})
+
         if (prevTasks) {
             const previousQuantity = prevTasks.quantity
-            const newQuantity =  prevTasks.length + 1
+            const newQuantity = parseInt(previousQuantity + 1)
             await TaskDone.updateMany({}, { quantity: newQuantity });
             const newTaskDone = new TaskDone({ task: id})
             newTaskDone.save();
