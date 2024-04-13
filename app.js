@@ -13,7 +13,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 /*intro de las rutas*/
-app.use('/', taskRouter);
+
+app.use('/app', taskRouter);
 
 
 app.use((req, res, next) => {
