@@ -8,7 +8,7 @@ const taskSchema = new Schema({
     required: true
   },
   prioridad: {
-    type: Number,
+    type: String,
     required: true
   },
   fecha: {

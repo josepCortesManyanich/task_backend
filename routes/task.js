@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Task = require('../models/Task')
 
+
 /*Get task*/
 router.get('/', async(req,res,next) =>{
     try {
@@ -22,10 +23,9 @@ router.post('/', async(req,res,next) => {
     try {
         const newTask = {name,prioridad,fecha,description,propiedad}
         const taskDb = await Task.create(newTask)
-        res.render('/', {newTask})
-        if(taskdDB.length === 0){
+        if(taskDb.length === 0){
             console.log('No hay tareas')
-        } else res.status(200).json({data:taskDb})
+        } else res.status(200).json({ data:taskDb })
     } catch (e) {
         console.log(e)
         next(e)
@@ -35,7 +35,7 @@ router.post('/', async(req,res,next) => {
 /*Update file*/
 
 
-router.put('/',async(req,res,next) => {
+router.put('/tarea',async(req,res,next) => {
     const{id} = req.params
     const {name,prioridad,fecha,description,propiedad} = req.body
     try {
@@ -54,7 +54,7 @@ router.put('/',async(req,res,next) => {
 })
 
 /*Eliminar tareas*/
-router.delete('/', async(req,res,next) => {
+router.delete('/tarea', async(req,res,next) => {
     const {id} = req.params
     try {
         const task = await Task.findById(id);
