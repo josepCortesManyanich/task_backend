@@ -35,7 +35,22 @@ router.post('/', async(req,res,next) => {
 /*Update file*/
 
 
-router.put('/tarea',async(req,res,next) => {
+router.get('/:id', async (req,res,next) => {
+    const {id} = req.params
+    try {
+        const taskDb= await Task.findById(id)
+        if (!taskDb) {
+            console.log('No hay tarea con este id')
+          }  else res.status(200).json({ data:taskDb })
+          
+    } catch (error) {
+        console.error(error)
+        next(error)        
+    }
+});
+
+
+router.put('/:id',async(req,res,next) => {
     const{id} = req.params
     const {name,prioridad,fecha,description,propiedad} = req.body
     try {
@@ -54,7 +69,7 @@ router.put('/tarea',async(req,res,next) => {
 })
 
 /*Eliminar tareas*/
-router.delete('/tarea', async(req,res,next) => {
+router.delete('/:id', async(req,res,next) => {
     const {id} = req.params
     try {
         const task = await Task.findById(id);
