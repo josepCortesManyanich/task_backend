@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const DoneTask = require('../models/DoneTask')
+const Task = require ('../models/Task')
 
 /*Get task*/
 router.get('/', async(req,res,next) =>{
@@ -20,20 +21,22 @@ router.post('/:id',  async(req,res,next) => {
    
     try {
         const task = await Task.findById(id);
-        const prevTasks = await TaskDone.find({})
+        const prevTasks = await DoneTask.find({})
 
         if (prevTasks) {
             const previousQuantity = prevTasks.quantity
             const newQuantity = parseInt(previousQuantity + 1)
-            await TaskDone.updateMany({}, { quantity: newQuantity });
-            const newTaskDone = new TaskDone({ task: id})
-            newTaskDone.save();
+            await DoneTask.updateMany({}, { quantity: newQuantity }, { new: true });
+            const newDoneTask = new DoneTask({ task: id})
+            newDoneTask.save();
         } else {
-            const newTaskDone = new TaskDone({ task: id, quantity:1})
-            newTaskDone.save();
+            const newDoneTask = new DoneTask({ task: id, quantity:1})
+            newDoneTask.save();
         }
     } catch (e) {
         console.log(e)
         next(e)
     }
 })
+
+module.exports = router

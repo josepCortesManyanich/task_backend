@@ -8,15 +8,19 @@ basedatos()
 
 const app = express();
 const indexRouter = require('./routes/index')
+const doneRouter = require('./routes/task-done')
 const taskRouter = require('./routes/task')
+
 app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 /*intro de las rutas*/
 app.use('/', indexRouter)
 app.use('/app/tarea', taskRouter);
+app.use('/app/tareaDone', doneRouter)
 
 
 app.use((req, res, next) => {
