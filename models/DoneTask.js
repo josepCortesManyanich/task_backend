@@ -4,8 +4,7 @@ const { Schema, model } = mongoose;
 const doneSchema = new Schema({
   quantity: {
     type: Number,
-    unique: true,
-    required: true
+    default: 0
   },
  
   task: {

@@ -16,27 +16,27 @@ router.get('/', async(req,res,next) =>{
     }
 })
 /*Añadir task echa */
-router.post('/:id',  async(req,res,next) => {
+
+router.post('/:id', async (req, res, next) => {
     const { id } = req.params;
-   
+    
     try {
         const task = await Task.findById(id);
-        const prevTasks = await DoneTask.find({})
+        const prevDoneTasks = await DoneTask.find({});
+        let newQuantity;
 
-        if (prevTasks) {
-            const previousQuantity = prevTasks.quantity
-            const newQuantity = parseInt(previousQuantity + 1)
-            await DoneTask.updateMany({}, { quantity: newQuantity }, { new: true });
-            const newDoneTask = new DoneTask({ task: id})
-            newDoneTask.save();
+        if (prevDoneTasks.length > 0) {
+            const lastDoneTask = prevDoneTasks[prevDoneTasks.length - 1];
+            newQuantity = lastDoneTask.quantity + 1;
         } else {
-            const newDoneTask = new DoneTask({ task: id, quantity:1})
-            newDoneTask.save();
+            newQuantity = 1;
         }
-    } catch (e) {
-        console.log(e)
-        next(e)
+        const newDoneTask = await DoneTask.create({ task: id, quantity: newQuantity });
+        res.status(200).json({ message: 'Tarea completada exitosamente' });
+    } catch (error) {
+        console.error(error);
+        next(error);
     }
-})
+});
 
-module.exports = router
+module.exports = router;
